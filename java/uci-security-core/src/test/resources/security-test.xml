@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<securityRepository>
+
+	<roles>
+		<role>ROLE_ADMIN</role>
+		<role>ROLE_CONTEST_MANAGER</role>
+		<role>ROLE_TEAM_MANAGER</role>
+		<role>ROLE_TEAM_MEMBER</role>
+		<role>ROLE_USER</role>
+	</roles>
+
+	<contextPackages>
+		<package>edu.baylor.cs.holder.security.test.model</package>
+	</contextPackages>
+	
+	<categories>
+
+		<category name="institutionManager">
+		
+			<accessRule action="select" active="true">
+				<role>ROLE_ADMIN</role>
+				<role>ROLE_CONTEST_MANAGER</role>
+			</accessRule>
+		
+			<accessRule action="select" active="true">
+				<context>Institution</context>
+				<role>ROLE_ADMIN</role>
+				<role>ROLE_CONTEST_MANAGER</role>
+				<role>ROLE_TEAM_MEMBER</role>
+			</accessRule>
+	
+			<accessRule action="save" active="true">
+				<role>ROLE_ADMIN</role>
+			</accessRule>
+	
+			<accessRule action="remove" active="true">
+				<role>ROLE_ADMIN</role>
+			</accessRule>
+	
+			<accessRule action="remove" active="true">
+				<context>Institution</context>
+				<role>ROLE_ADMIN</role>
+			</accessRule>
+	
+		</category>
+		
+		<category name="contestManager">
+		
+			<accessRule action="select" active="true">
+				<context>Contest</context>
+				<role>ROLE_ADMIN</role>
+				<role>ROLE_CONTEST_MANAGER</role>
+				<role>ROLE_TEAM_MANAGER</role>
+				<role>ROLE_TEAM_MEMBER</role>
+			</accessRule>
+			
+		</category>
+
+	</categories>
+	
+	<roleMappings>
+	
+		<!-- All Users get ROLE_USER for everything -->
+		<roleMapping>
+			<role>ROLE_USER</role>
+		</roleMapping>
+	
+		<!-- User with userId=1 gets ROLE_ADMIN for everything -->
+		<roleMapping userId="1">
+			<role>ROLE_ADMIN</role>
+		</roleMapping>
+	
+		<!-- User with userId=2 gets ROLE_CONTEST_MANGER for any Contest -->
+		<roleMapping userId="2" contextType="Contest">
+			<role>ROLE_CONTEST_MANAGER</role>
+		</roleMapping>
+		
+		<!-- User with userId=3 gets ROLE_CONTEST_MANGER for Contest with contextId=4 -->
+		<roleMapping userId="3" contextType="Contest" contextId="4">
+			<role>ROLE_CONTEST_MANAGER</role>
+		</roleMapping>
+		
+	</roleMappings>
+	
+</securityRepository>
